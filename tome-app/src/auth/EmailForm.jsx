@@ -41,13 +41,14 @@ function EmailForm() {
     }
 
     return (
-        <div>
+        <div className='mb-4'>
             <h2>{isSignUp ? "Create account" : "Sign in"}</h2>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <label htmlFor="email">Email</label>
                 <input
                     type="text"
                     id="email"
+                    className="border border-1 border-gray-300"
                     data-form-type="other"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
