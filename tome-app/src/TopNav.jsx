@@ -23,18 +23,18 @@ function TopNav() {
             })
     }
     return (
-        <div className="flex flex-row justify-between border border-red-300 items-center p-4 pl-6 pr-6 w-full m-0 absolute top-0 left-0 bg-white">
+        <div className="flex flex-row justify-between border-b border-gray-300 items-center p-4 pl-6 pr-6 w-full m-0 relative top-0 left-0 bg-white">
             <img src={TomeSvg} alt="Tome Logo" className="sm" />
-            <div className="flex flex-row gap-2">
+
                 {user ? (
-                    <div>
+                    <div className="flex flex-row gap-2">
                         <p>{user.email}</p>
                         <button onClick={handleSignOut}>Sign out</button>
                     </div>
                 ) : (
                     <p>Sign in</p>
                 )}
-            </div>
+
         </div>
     );
 }
