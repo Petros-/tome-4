@@ -5,7 +5,7 @@ import EmailForm from './auth/EmailForm'
 
 function Container() {
   return (
-    <div className="flex flex-col min-h-screen w-full border border-red-500 p-0">
+    <div className="flex flex-col min-h-screen w-full p-0">
       <TopNav /> 
       <div className="flex-grow">
 
