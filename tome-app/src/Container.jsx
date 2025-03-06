@@ -14,7 +14,6 @@ function Container() {
         <div className="flex flex-col min-h-screen w-full p-0">
             <TopNav />
             <div className="flex-grow">
-                {user.email} • &nbsp;
                 {user ? <ArtworksList /> : <EmailForm />}
             </div>
         </div>
