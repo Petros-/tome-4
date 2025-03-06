@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import './App.css'
-import EmailForm from './auth/EmailForm'
-import TopNav from './TopNav'
-import Body from './Body'
 import Container from './Container'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import ArtworkDetails from './art-pages/ArtworkDetails'
+import NewArtwork from './art-pages/NewArtwork'
+import EditArtwork from './art-pages/EditArtwork'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>      
-    <Container />
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Container />} />
+          <Route path="/artwork/:id" element={<ArtworkDetails />} />
+          <Route path="/new" element={<NewArtwork />} />
+          <Route path="/edit/:id" element={<EditArtwork />} />
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }
