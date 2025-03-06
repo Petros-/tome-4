@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
+import Button from '../components/Button';
 
 function EmailForm() {
     const [email, setEmail] = useState('');
@@ -41,11 +42,10 @@ function EmailForm() {
     }
 
     return (
-        <div className='flex flex-column mb-4 w-1/2'>
-            <h2>{isSignUp ? "Create account" : "Sign in"}</h2>
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div className="mb-4">
-
+        <div>
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-120">
+                <h2 className="text-xl font-semibold">{isSignUp ? "Create account" : "Sign in"}</h2>
+                <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
                     <input
                         type="text"
@@ -57,7 +57,7 @@ function EmailForm() {
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <div className="mb-4">
+                <div className="mb-6">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
                     <input
                         type="password"
@@ -69,9 +69,19 @@ function EmailForm() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">{isSignUp ? "Create account" : "Sign in"}</button>
+                <div className="flex items-center justify-between">
+                    {isSignUp 
+                        ?
+                        <><div><p>Have an account?</p><p><button onClick={() => setIsSignUp(!isSignUp)}> Sign in </button>instead</p></div></> 
+                        :
+                        <><div><p>Don't have an account?</p><p><button onClick={() => setIsSignUp(!isSignUp)}> Create one </button>instead</p></div></>
+                        
+                    }
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        {isSignUp ? "Create account" : "Sign in"}
+                    </button>
+                </div>
             </form>
-            <button onClick={() => setIsSignUp(!isSignUp)} type="submit">{isSignUp ? "Sign in" : "No account yet? Sign up"}</button>
 
         </div>
     )
