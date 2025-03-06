@@ -90,7 +90,7 @@ function ArtworksList() {
                 </Link>
                 {artworks.map((artwork) => {
                     return <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
-                        {artwork.data().title} •
+                        <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
                         {artwork.data().createdAt?.toDate().toLocaleString()}
                         <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
                         <button onClick={() => handleDelete(artwork.id)}>Delete</button>

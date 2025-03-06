@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {doc, getDoc} from "firebase/firestore";
-import { auth, db } from '../FirebaseConfig';
 import {useParams} from 'react-router-dom';
+import { auth, db } from '../FirebaseConfig';
 import NewArtwork from "./NewArtwork";
 
 function EditArtwork () {
@@ -10,6 +10,12 @@ function EditArtwork () {
     const [existingData, setExistingData] = useState(null);
 
     useEffect (() => {
+
+        if (!user) {
+            console.log("No authenticated user. Skipping Firestore request.");
+            return; // Exit early if user is not authenticated
+        }
+
         const fetchData = async () =>  {
             try {
                 const docRef = doc(db, "accounts", user, "artworks", id);
