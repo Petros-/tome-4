@@ -8,7 +8,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 function Container() {
     const [user] = useAuthState(auth);
 
-    console.log(user);
 
     return (
         <div className="flex flex-col min-h-screen w-full p-0">
