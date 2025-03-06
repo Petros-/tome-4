@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 function NewArtwork({ existingData }) {
     // get id from url if editing
+    const user = auth.currentUser;
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ function NewArtwork({ existingData }) {
 
         try {
             if (id) {
-                await setDoc(doc(db, "artworks", id), {
+                await setDoc(doc(db, "accounts", user.uid, "artworks", id), {
                     title,
                     medium,
                     updtatedAt: new Date()
@@ -35,7 +36,7 @@ function NewArtwork({ existingData }) {
             } else {
 
                 // Add a new document with a generated id
-                const docRef = await addDoc(collection(db, "artworks"), {
+                const docRef = await addDoc(collection(db, "accounts", user.uid, "artworks"), {
                     title: title,
                     medium: medium,
                     createdAt: new Date()

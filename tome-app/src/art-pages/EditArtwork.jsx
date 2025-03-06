@@ -5,13 +5,14 @@ import {useParams} from 'react-router-dom';
 import NewArtwork from "./NewArtwork";
 
 function EditArtwork () {
+    const user = auth.currentUser;
     const {id} = useParams();
     const [existingData, setExistingData] = useState(null);
 
     useEffect (() => {
         const fetchData = async () =>  {
             try {
-                const docRef = doc(db, "artworks", id);
+                const docRef = doc(db, "accounts", user, "artworks", id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
