@@ -61,7 +61,7 @@ function ArtworksList() {
                     {artworks.map((artwork) => {
                         return <div key={artwork.id} className="flex flex-col gap-2 items-center border border-gray-300 w-full rounded m-auto">
                             <div className="bg-blue-200 w-full h-48 flex justify-center items-center">
-                                Image here
+                                <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                             </div>
                             <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
                             {artwork.data().createdAt?.toDate().toLocaleString()}

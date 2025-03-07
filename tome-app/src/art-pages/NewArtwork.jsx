@@ -1,34 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { auth, db } from '../FirebaseConfig';
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { auth, db, storage } from '../FirebaseConfig';
 import { useParams, useNavigate } from 'react-router-dom';
+import { setAnalyticsCollectionEnabled } from "firebase/analytics";
 
 function NewArtwork({ existingData }) {
     // get id from url if editing
     const user = auth.currentUser;
     const { id } = useParams();
     const navigate = useNavigate();
+    const [file, setFile] = useState(null);
+    const [imageURL, setImageURL] = useState('');
+    const [title, setTitle] = useState('');
+    const [medium, setMedium] = useState('');
+    const [uploading, setUploading] = useState(false);
 
+
+    
     //populate the form if editing an existing item
     useEffect(() => {
         if (existingData) {
             setTitle(existingData.title || '');
             setMedium(existingData.medium || '')
+            setImageURL(existingData.image || '');
         }
     }, [existingData]);
-
-    // const [artwork, setArtwork] = useState('');
-    const [title, setTitle] = useState('');
-    const [medium, setMedium] = useState('');
+    
+    function handleImageChange(e) {
+        const selectedFile = e.target.files[0];
+        if(selectedFile) {
+            setFile(selectedFile);
+            setImageURL(URL.createObjectURL(selectedFile))
+        }
+    }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
 
         try {
+            let uploadedImageUrl = imageURL;
+
+            if (file) {
+                setUploading(true);
+                const storageRef = ref(storage, `artworks/${user.uid}/${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                await new Promise((resolve, reject) => {
+                    uploadTask.on(
+                        "state_changed",
+                        null,
+                        (error) => reject(error),
+                        async () => {
+                            uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                            resolve();
+                        }
+                    );
+                });
+            }
+
             if (id) {
                 await setDoc(doc(db, "accounts", user.uid, "artworks", id), {
                     title,
                     medium,
+                    image: uploadedImageUrl,
                     updtatedAt: new Date()
                 }, { merge: true });
                 console.log("Document updated:", id);
@@ -39,6 +74,7 @@ function NewArtwork({ existingData }) {
                 const docRef = await addDoc(collection(db, "accounts", user.uid, "artworks"), {
                     title: title,
                     medium: medium,
+                    image: uploadedImageUrl,
                     createdAt: new Date()
                 });
 
@@ -47,6 +83,8 @@ function NewArtwork({ existingData }) {
                 // clear the fields
                 setTitle('')
                 setMedium('')
+                setFile(null);
+                setImageURL('');
             }
 
             // go back to the list after editing the form
@@ -54,6 +92,8 @@ function NewArtwork({ existingData }) {
 
         } catch (error) {
             console.error("There was a problem:", error);
+        } finally {
+            setUploading(false);
         }
     }
 
@@ -63,7 +103,8 @@ function NewArtwork({ existingData }) {
                 <div className="bg-white shadow-md rounded w-[80%] h-[80%] bg-clip-border overflow-hidden">
                     <form onSubmit={handleSubmit} className="flex flex-row w-full h-full">
                         <div className="flex items-center justify-center w-1/2 h-full bg-blue-200">
-                            Some image here
+                            <input type="file" onChange={handleImageChange}/>
+                            <img src={file} />
                         </div>
                         <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between">
                             <div className="flex flex-col gap-x-6 gap-y-8 sm:grid-cols-1">
@@ -95,8 +136,9 @@ function NewArtwork({ existingData }) {
                             <button
                                 type="submit"
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                disabled={uploading}
                             >
-                                Save artwork
+                                {uploading ? "Uploading..." : "Save artwork"}
                             </button>
                         </div>
                     </form>
