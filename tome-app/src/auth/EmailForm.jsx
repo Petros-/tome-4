@@ -12,9 +12,14 @@ function EmailForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!email.trim() || !password.trim()) {
+            console.log("Error: Email and password cannot be empty.");
+            return;
+        }
+
         try {
 
-            let userCredential;
+            // let userCredential;
 
             if (isSignUp) {
 
@@ -32,6 +37,7 @@ function EmailForm() {
                 await setDoc(doc(collection(db, "accounts"), user.uid), account);
 
                 console.log("Successful signup: ", user);
+                setIsSignUp(false);
             } else {
                 userCredential = await signInWithEmailAndPassword(auth, email, password);
                 console.log("Successful sign in: ", userCredential.user);
@@ -44,9 +50,11 @@ function EmailForm() {
     return (
         <div>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-120">
-                <h2 className="text-xl font-semibold">{isSignUp ? "Create account" : "Sign in"}</h2>
+                <h2 className="text-xl font-semibold">
+                    {isSignUp ? "Create account" : "Sign up" }
+                    </h2>
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">Email</label>
+                    <label className="block text-gray-700 text-sm font-bold mb-2 text-left" htmlFor="email">Email</label>
                     <input
                         type="text"
                         id="email"
@@ -58,7 +66,7 @@ function EmailForm() {
                     />
                 </div>
                 <div className="mb-6">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">Password</label>
+                    <label className="block text-gray-700 text-sm font-bold mb-2 text-left" htmlFor="password">Password</label>
                     <input
                         type="password"
                         id="password"
@@ -70,15 +78,14 @@ function EmailForm() {
                     />
                 </div>
                 <div className="flex items-center justify-between">
-                    {isSignUp 
-                        ?
-                        <><div><p>Have an account?</p><p><button onClick={() => setIsSignUp(!isSignUp)}> Sign in </button>instead</p></div></> 
-                        :
-                        <><div><p>Don't have an account?</p><p><button onClick={() => setIsSignUp(!isSignUp)}> Create one </button>instead</p></div></>
-                        
-                    }
+                    <p className="text-sm">
+                        {isSignUp ? "Already have an account?" : "Don't have an account?"}
+                        <button type="button" className="text-blue-500 hover:underline ml-1" onClick={() => setIsSignUp(!isSignUp)}>
+                            {isSignUp ? "Sign In" : "Create one"}
+                        </button>
+                    </p>
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        {isSignUp ? "Create account" : "Sign in"}
+                        {isSignUp ?  "Create account" : "Sign in"}
                     </button>
                 </div>
             </form>
