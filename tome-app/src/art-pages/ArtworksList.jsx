@@ -48,8 +48,7 @@ function ArtworksList() {
 
     return (
         <>
-
-            <div className="absolute top-16 grid grid-rows-4 gap-4 h-full w-full items-center px-12">
+            <div className="grid grid-rows-4 gap-4 h-full w-full items-center px-12">
                 <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
                     <p className="flex flex-grow-1 ">Tome only really works if you add some art to it.</p>
                     <Link to="/new" >
@@ -58,10 +57,10 @@ function ArtworksList() {
                         </button>
                     </Link>
                 </div>
-                <div className="container m-auto grid grid-cols-3 gap-2">
+                <div className="container m-auto grid grid-cols-3 gap-4 w-full">
                     {artworks.map((artwork) => {
-                        return <div key={artwork.id} className="flex flex-col gap-3 items-center border border-gray-300 w-60 rounded">
-                            <div class="bg-blue-200 w-full h-48 flex justify-center items-center">
+                        return <div key={artwork.id} className="flex flex-col gap-2 items-center border border-gray-300 w-full rounded m-auto">
+                            <div className="bg-blue-200 w-full h-48 flex justify-center items-center">
                                 Image here
                             </div>
                             <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •

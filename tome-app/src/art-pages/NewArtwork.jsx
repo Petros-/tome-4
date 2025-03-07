@@ -59,27 +59,49 @@ function NewArtwork({ existingData }) {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className="absolute top-16 w-120 space-y-8">
-                    <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                        <div className="sm:col-span-4">
-                            <label htmlFor="artwork-title">Title</label>
-                            <input type="text" id="artwork-title" value={title}
-                                onChange={(e) => setTitle(e.target.value)}
-                                className="border border-gray-200 p-1"
-                                data-form-type="other"
-                            />
+            <div className="flex items-center justify-center bg-gray-100 w-full h-svh">
+                <div className="bg-white shadow-md rounded w-[80%] h-[80%] bg-clip-border overflow-hidden">
+                    <form onSubmit={handleSubmit} className="flex flex-row w-full h-full">
+                        <div className="flex items-center justify-center w-1/2 h-full bg-blue-200">
+                            Some image here
                         </div>
-                    </div>
-                    <label htmlFor="artwork-medium">Medium</label>
-                    <input type="text" id="artwork-medium" value={medium}
-                        onChange={(e) => setMedium(e.target.value)}
-                        className="border border-gray-200 p-1"
-                        data-form-type="other"
-                    />
-                    <button type="submit">Save artwork</button>
+                        <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between">
+                            <div className="flex flex-col gap-x-6 gap-y-8 sm:grid-cols-1">
+                                <div className="">
+                                    <div className="w-full space-y-6">
+                                        <label htmlFor="artwork-title" className="block text-gray-700 text-sm font-bold mb-2 text-left">Title</label>
+                                        <input type="text"
+                                            id="artwork-title"
+                                            value={title}
+                                            onChange={(e) => setTitle(e.target.value)}
+                                            className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            data-form-type="other"
+                                        />
+                                    </div>
+                                                                </div>
+                                                                <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-1">
+                                    <div className="w-full space-y-6">
+                                        <label htmlFor="artwork-medium" className="block text-gray-700 text-sm font-bold mb-2 text-left">Medium</label>
+                                        <input type="text"
+                                            id="artwork-medium"
+                                            value={medium}
+                                            onChange={(e) => setMedium(e.target.value)}
+                                            className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                            data-form-type="other"
+                                        />
+                                    </div>
+                                                                </div>
+                                </div>
+                            <button
+                                type="submit"
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                            >
+                                Save artwork
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div >
         </>
     )
 }
