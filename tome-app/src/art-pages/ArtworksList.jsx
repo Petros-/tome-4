@@ -49,23 +49,25 @@ function ArtworksList() {
     return (
         <>
 
-            <div className="absolute top-16 grid grid-rows-4 gap-4 h-full w-full items-center">
-                <div className="border-gray-200 bg-blue-200rounded flex space-x-between w-full p-4">
-                    <p className="flex flex-grow: 1">Tome only really works if you add some art to it.</p>
+            <div className="absolute top-16 grid grid-rows-4 gap-4 h-full w-full items-center px-12">
+                <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
+                    <p className="flex flex-grow-1 ">Tome only really works if you add some art to it.</p>
                     <Link to="/new" >
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Add an artwork
                         </button>
                     </Link>
                 </div>
-                {artworks.map((artwork) => {
-                    return <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
-                        <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
-                        {artwork.data().createdAt?.toDate().toLocaleString()}
-                        <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
-                        <button onClick={() => handleDelete(artwork.id)}>Delete</button>
-                    </div>
-                })}
+                <div className="container m-auto grid grid-col-3 gap-4">
+                    {artworks.map((artwork) => {
+                        return <div key={artwork.id} className="flex flex-grid gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                            <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
+                            {artwork.data().createdAt?.toDate().toLocaleString()}
+                            <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
+                            <button onClick={() => handleDelete(artwork.id)}>Delete</button>
+                        </div>
+                    })}
+                </div>
             </div>
         </>
     )
