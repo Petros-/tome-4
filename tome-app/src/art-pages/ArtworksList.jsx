@@ -10,39 +10,6 @@ function ArtworksList() {
     const [artworks, setArtworks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
-    const [subCollectionExists, setSubCollectionExists] = useState(false);
-
-    // useEffect(() => {
-
-    //     if (!user) {
-    //         console.log("No authenticated user. Skipping Firestore request.");
-    //         return;
-    //     }
-
-    //     console.log("Authenticated User ID:", user.uid);
-
-    //     const checkForSub = async () => {
-    //         try {
-    //             const subcollectionRef = collection(db, 'accounts', user.uid, 'artworks');
-    //             const querySnapshot = await getDocs(subcollectionRef);
-
-    //             if (!querySnapshot.empty) {
-    //                 console.log("User has a subcollection. Here are the documents:");
-    //                 querySnapshot.forEach(doc => console.log(doc.id, doc.data()));
-    //             } else {
-    //                 console.log("Subcollection is empty.");
-    //             }
-
-    //             setSubCollectionExists(!querySnapshot.empty);
-    //         } catch (error) {
-    //             console.log("Problem checking for subcollection: ", error)
-    //         } finally {
-    //             setIsLoading(false);
-    //         }
-    //     }
-    //     checkForSub();
-
-    // }, [user]);
 
     useEffect(() => {
 
@@ -82,12 +49,15 @@ function ArtworksList() {
     return (
         <>
 
-            <div className="absolute top-16 grid grid-rows-4 gap-4 h-full items-center">
-                <Link to="/new" >
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                        Add an artwork
-                    </button>
-                </Link>
+            <div className="absolute top-16 grid grid-rows-4 gap-4 h-full w-full items-center">
+                <div className="border-gray-200 bg-blue-200rounded flex space-x-between w-full p-4">
+                    <p className="flex flex-grow: 1">Tome only really works if you add some art to it.</p>
+                    <Link to="/new" >
+                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Add an artwork
+                        </button>
+                    </Link>
+                </div>
                 {artworks.map((artwork) => {
                     return <div key={artwork.id} className="flex flex-row gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
                         <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
