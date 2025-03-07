@@ -58,9 +58,12 @@ function ArtworksList() {
                         </button>
                     </Link>
                 </div>
-                <div className="container m-auto grid grid-col-3 gap-4">
+                <div className="container m-auto grid grid-cols-3 gap-2">
                     {artworks.map((artwork) => {
-                        return <div key={artwork.id} className="flex flex-grid gap-3 items-center border border-gray-300 p-4"><Link to={`/artwork/${artwork.id}`} >{artwork.title}</Link>
+                        return <div key={artwork.id} className="flex flex-col gap-3 items-center border border-gray-300 w-60 rounded">
+                            <div class="bg-blue-200 w-full h-48 flex justify-center items-center">
+                                Image here
+                            </div>
                             <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
                             {artwork.data().createdAt?.toDate().toLocaleString()}
                             <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
