@@ -37,6 +37,15 @@ function ArtworksList() {
 
     }, [user]);
 
+    const handleDelete = async (id) => {
+        try {
+            await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
+            setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
+            console.log("Deleted artwork:", id);
+        } catch (error) {
+            console.error("Error with the delete:", error)
+        }
+    }
 
     if (isLoading) {
         return <h2>Loading...</h2>
@@ -63,10 +72,22 @@ function ArtworksList() {
                             <div className="bg-blue-200 w-full h-48 flex justify-center items-center">
                                 <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                             </div>
-                            <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link> •
-                            {artwork.data().createdAt?.toDate().toLocaleString()}
-                            <Link to={`/edit/${artwork.id}`}><button>Edit</button></Link>
-                            <button onClick={() => handleDelete(artwork.id)}>Delete</button>
+                            <Link to={`/artwork/${artwork.id}`}>{artwork.data().title} </Link>
+                            <div className="w-full flex flex-row gap-2 p-2">
+                                <Link to={`/edit/${artwork.id}`}>
+                                    <button
+                                        className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                    >
+                                        Edit
+                                    </button>
+                                </Link>
+                                <button
+                                    onClick={() => handleDelete(artwork.id)}
+                                    className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     })}
                 </div>
