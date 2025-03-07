@@ -48,7 +48,7 @@ function ArtworksList() {
 
     return (
         <>
-            <div className="grid grid-rows-4 gap-4 h-full w-full items-center px-12">
+            <div className="grid grid-rows-auto gap-4 w-full items-center px-12 pt-4">
                 <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
                     <p className="flex flex-grow-1 ">Tome only really works if you add some art to it.</p>
                     <Link to="/new" >
