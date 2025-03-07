@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
-import Button from '../components/Button';
+import TomeSvg from '../assets/Tome.svg';
 
 function EmailForm() {
     const [email, setEmail] = useState('');
@@ -48,8 +48,11 @@ function EmailForm() {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-120">
+        <div className="bg-white shadow-md rounded w-120">
+            <div className="flex items-center justify-center w-full h-40 bg-blue-200">
+                <img src={TomeSvg} alt="Tome Logo" className="sm" />
+            </div>
+            <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4">
                 <h2 className="text-xl font-semibold">
                     {isSignUp ? "Create account" : "Sign up" }
                     </h2>
