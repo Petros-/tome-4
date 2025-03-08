@@ -50,7 +50,7 @@ function EmailForm() {
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-[url(././assets/Dec022023Photoshoot-009.jpg)] bg-cover bg-center w-full h-svh">
             <div className="shadow-md rounded-t-lg border-gray-300 bg-clip-border overflow-hidden">
-                <div className="flex items-center justify-center w-full h-40 bg-blue-200 opacity-90">
+                <div className="flex items-center justify-center w-full h-40 bg-blue-200">
                     <img src={TomeDiamondSvg} alt="Tome Logo" className="sm" />
                 </div>
                 <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4 bg-white rounded-b-lg">

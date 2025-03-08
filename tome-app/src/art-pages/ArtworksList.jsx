@@ -11,6 +11,7 @@ function ArtworksList() {
     const [artworks, setArtworks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const [showTitles, setShowTitles] = useState(true);
 
     useEffect(() => {
 
@@ -57,13 +58,31 @@ function ArtworksList() {
     return (
         <>
             <div className="grid grid-rows-auto gap-4 w-full items-center px-12 pt-4">
-                <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
-                    <p className="flex flex-grow-1 ">You have {artworks.length} {artworks.length === 1 ? "artwork" : "artworks"} in Tome.</p>
-                    <Link to="/new" >
-                        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                            Add an artwork
-                        </button>
-                    </Link>
+                <div className="flex flex-row gap-4 h-auto">
+                    <div className="h-full w-48 border border-gray-200 bg-gray-50 rounded p-4 items-center justify-center">
+                        <div className="flex items-center mb-4">
+                            <input
+                                id="default-checkbox"
+                                type="checkbox"
+                                value=""
+                                onClick={() => setShowTitles((prev) => !prev)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label
+                                htmlFor="default-checkbox"
+                                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                Show titles
+                            </label>
+                        </div>
+                    </div>
+                    <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
+                        <p className="flex flex-grow-1 ">You have {artworks.length} {artworks.length === 1 ? "artwork" : "artworks"} in Tome.</p>
+                        <Link to="/new" >
+                            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Add an artwork
+                            </button>
+                        </Link>
+                    </div>
                 </div>
                 <div className="grid grid-cols-3 gap-4 w-full">
                     {artworks.map((artwork) => {
@@ -73,10 +92,10 @@ function ArtworksList() {
                                     <div className="w-full h-60 flex-shrink-0">
                                         <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                                     </div>
-                                    <Truncator>{artwork.data().title}</Truncator>
+                                    {showTitles ? <Truncator>{artwork.data().title}</Truncator> : ''}  
                                 </div>
                             </Link>
-                            
+
                         </div>
                     })}
                 </div>
