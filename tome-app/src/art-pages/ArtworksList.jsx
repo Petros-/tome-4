@@ -5,6 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import Truncator from "../fields/Truncator";
 import Loader from "../fields/Loader";
+import Toggle from "../fields/Toggle";
 
 function ArtworksList() {
     const [user] = useAuthState(auth);
@@ -61,16 +62,8 @@ function ArtworksList() {
                 <div className="flex flex-row gap-4 h-auto">
                     <div className="h-full w-48 border border-gray-200 bg-gray-50 rounded p-4 items-center justify-center">
                         <div className="flex items-center mb-4">
-                            <input
-                                id="default-checkbox"
-                                type="checkbox"
-                                value=""
-                                onClick={() => setShowTitles((prev) => !prev)}
-                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            <label
-                                htmlFor="default-checkbox"
-                                className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <Toggle isOn={showTitles} toggle={() => setShowTitles(prev => !prev)} />
+                            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 Show titles
                             </label>
                         </div>
