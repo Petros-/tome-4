@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
 import { useParams } from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
+import TopNav from "../TopNav";
 
 function ArtworkDetails() {
     const user = auth.currentUser;
@@ -20,7 +21,7 @@ function ArtworkDetails() {
 
         const getData = async () => {
 
-            
+
 
             try {
                 const docRef = doc(db, "accounts", user.uid, "artworks", id);
@@ -37,7 +38,7 @@ function ArtworkDetails() {
                     console.log("Didn't find that artwork");
                     setHasError(true);
                 }
-                
+
             } catch (error) {
                 console.error("Updated error fetching document:", error);
                 setHasError(true);
@@ -56,17 +57,27 @@ function ArtworkDetails() {
                 <p>Loading...</p>
             ) : hasError ? (
                 <p>There was a problem loading the artwork.</p>
-
             ) : artwork ? (
-            <div>
-                <img src={artwork.image} alt="" />
-                <h1>{artwork.title}</h1>
-                <p>Something else</p>
-            </div>
+                <div className="flex flex-col min-h-screen w-full p-0">
+                    <TopNav />
+                    <div className="flex flex-row gap-8 h-full p-20">
+                        <div className="border">
+                            <img
+                                src={artwork.image}
+                                alt={`An artwork titled ${artwork.title} done in ${artwork.medium}`}
+                                className="object-contain h-full"
+                            />
+                        </div>
+                        <div className="flex flex-col gap-4 w-1/2 border">
+                            <h1>{artwork.title}</h1>
+                            <p>Something else</p>
+                        </div>
+                    </div>
+                </div>
 
             ) : (
-            <p>Artwork not found</p>
-        )}
+                <p>Artwork not found</p>
+            )}
 
 
         </>
