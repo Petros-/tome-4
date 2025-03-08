@@ -59,7 +59,7 @@ function ArtworksList() {
         <>
             <div className="grid grid-rows-auto gap-4 w-full items-center px-12 pt-4">
                 <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
-                    <p className="flex flex-grow-1 ">Tome only really works if you add some art to it.</p>
+                    <p className="flex flex-grow-1 ">You have X artworks in Tome.</p>
                     <Link to="/new" >
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Add an artwork
