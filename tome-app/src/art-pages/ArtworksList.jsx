@@ -3,6 +3,7 @@ import { collection, getDocs, deleteDoc, doc, query, orderBy, onSnapshot } from 
 import { auth, db } from '../FirebaseConfig';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
+import Truncator from "../fields/Truncator";
 
 export const handleDelete = async (id, user, setArtworks) => {
     try {
@@ -82,7 +83,7 @@ function ArtworksList() {
                                     <div className="w-full h-60 flex-shrink-0">
                                         <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                                     </div>
-                                    {artwork.data().title}
+                                    <Truncator>{artwork.data().title}</Truncator>
                                 </div>
                             </Link>
                             <div className="w-full flex flex-row gap-2 p-2">
