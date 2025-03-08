@@ -3,9 +3,10 @@ import {doc, getDoc} from "firebase/firestore";
 import {useParams} from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
 import NewArtwork from "./NewArtwork";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function EditArtwork () {
-    const user = auth.currentUser;
+    const [user] = useAuthState(auth);
     const {id} = useParams();
     const [existingData, setExistingData] = useState(null);
 
@@ -18,7 +19,7 @@ function EditArtwork () {
 
         const fetchData = async () =>  {
             try {
-                const docRef = doc(db, "accounts", user, "artworks", id);
+                const docRef = doc(db, "accounts", user.uid, "artworks", id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
@@ -33,7 +34,10 @@ function EditArtwork () {
         };
 
         fetchData();
-    }, [id])
+    }, [user, id])
+
+    console.log(existingData);
+
     return (
         <>
             {existingData ? <NewArtwork existingData={existingData} /> : <p>Loading...</p>}

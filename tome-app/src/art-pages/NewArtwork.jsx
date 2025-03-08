@@ -16,8 +16,6 @@ function NewArtwork({ existingData }) {
     const [medium, setMedium] = useState('');
     const [uploading, setUploading] = useState(false);
 
-
-    
     //populate the form if editing an existing item
     useEffect(() => {
         if (existingData) {
@@ -26,10 +24,10 @@ function NewArtwork({ existingData }) {
             setImageURL(existingData.image || '');
         }
     }, [existingData]);
-    
+
     function handleImageChange(e) {
         const selectedFile = e.target.files[0];
-        if(selectedFile) {
+        if (selectedFile) {
             setFile(selectedFile);
             setImageURL(URL.createObjectURL(selectedFile))
         }
@@ -53,28 +51,29 @@ function NewArtwork({ existingData }) {
                         (error) => reject(error),
                         async () => {
                             uploadedImageUrl = await getDownloadURL(uploadTask.snapshot.ref);
+                            setImageURL(uploadedImageUrl);
                             resolve();
                         }
                     );
                 });
             }
 
+            const artworkData = {
+                title,
+                medium,
+                image: uploadedImageUrl,
+                updatedAt: new Date()
+            }
+
             if (id) {
-                await setDoc(doc(db, "accounts", user.uid, "artworks", id), {
-                    title,
-                    medium,
-                    image: uploadedImageUrl,
-                    updtatedAt: new Date()
-                }, { merge: true });
+                await setDoc(doc(db, "accounts", user.uid, "artworks", id), artworkData, { merge: true });
                 console.log("Document updated:", id);
 
             } else {
 
                 // Add a new document with a generated id
                 const docRef = await addDoc(collection(db, "accounts", user.uid, "artworks"), {
-                    title: title,
-                    medium: medium,
-                    image: uploadedImageUrl,
+                    ...artworkData,
                     createdAt: new Date()
                 });
 
@@ -102,9 +101,11 @@ function NewArtwork({ existingData }) {
             <div className="flex items-center justify-center bg-gray-100 w-full h-svh">
                 <div className="bg-white shadow-md rounded w-[80%] h-[80%] bg-clip-border overflow-hidden">
                     <form onSubmit={handleSubmit} className="flex flex-row w-full h-full">
-                        <div className="flex items-center justify-center w-1/2 h-full bg-blue-200">
-                            <input type="file" onChange={handleImageChange}/>
-                            <img src={file} />
+                        <div className="flex items-center flex-col justify-center w-1/2 h-full bg-blue-200">
+                            <img src={imageURL} />
+                            <button className="border border-gray-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                <input type="file" onChange={handleImageChange} className="border text-blue-600 flex justify-center w-full"/>
+                            </button>
                         </div>
                         <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between">
                             <div className="flex flex-col gap-x-6 gap-y-8 sm:grid-cols-1">
@@ -119,8 +120,8 @@ function NewArtwork({ existingData }) {
                                             data-form-type="other"
                                         />
                                     </div>
-                                                                </div>
-                                                                <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-1">
+                                </div>
+                                <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-1">
                                     <div className="w-full space-y-6">
                                         <label htmlFor="artwork-medium" className="block text-gray-700 text-sm font-bold mb-2 text-left">Medium</label>
                                         <input type="text"
@@ -131,8 +132,8 @@ function NewArtwork({ existingData }) {
                                             data-form-type="other"
                                         />
                                     </div>
-                                                                </div>
                                 </div>
+                            </div>
                             <button
                                 type="submit"
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
