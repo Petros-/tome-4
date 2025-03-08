@@ -1,8 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
 import TopNav from "../TopNav";
+
+export const handleDelete = async (id, user, setArtworks) => {
+    try {
+        await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
+        setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
+        console.log("Deleted artwork:", id);
+    } catch (error) {
+        console.error("Error with the delete:", error)
+    }
+}
 
 function ArtworkDetails() {
     const user = auth.currentUser;
@@ -72,6 +82,23 @@ function ArtworkDetails() {
                             <h1 className="text-xl">{artwork.title}</h1>
                             <p>{artwork.medium}</p>
                             <p>{`Added ${artwork.createdAt?.toDate().toLocaleString()}`}</p>
+                            <div className="flex flex-col items-center justify-center w-full">
+                                <div className="w-full flex flex-row gap-2 p-2 justify-center">
+                                    <Link to={`/edit/${artwork.id}`}>
+                                        <button
+                                            className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                        >
+                                            Edit
+                                        </button>
+                                    </Link>
+                                    <button
+                                        onClick={() => handleDelete(artwork.id)}
+                                        className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

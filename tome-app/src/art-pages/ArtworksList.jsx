@@ -4,16 +4,7 @@ import { auth, db } from '../FirebaseConfig';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import Truncator from "../fields/Truncator";
-
-export const handleDelete = async (id, user, setArtworks) => {
-    try {
-        await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
-        setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
-        console.log("Deleted artwork:", id);
-    } catch (error) {
-        console.error("Error with the delete:", error)
-    }
-}
+import Loader from "../fields/Loader";
 
 function ArtworksList() {
     const [user] = useAuthState(auth);
@@ -32,12 +23,8 @@ function ArtworksList() {
             try {
                 const q = query(collection(db, "accounts", user.uid, "artworks"), orderBy("createdAt"));
 
-                onSnapshot(q, (doc) => {
-                    setArtworks(doc.docs);
-                });
-
-                const unsubscribe = onSnapshot(q, (doc) => {
-                    setArtworks(doc.docs);
+                const unsubscribe = onSnapshot(q, (snapshot) => {
+                    setArtworks(snapshot.docs);
                 });
 
                 return () => unsubscribe();
@@ -54,10 +41,13 @@ function ArtworksList() {
         fetchArt();
     }, [user]);
 
-    
+
 
     if (isLoading) {
-        return <h2>Loading...</h2>
+        return <>
+            <h2>Loading...</h2>
+            <Loader />
+        </>
     }
 
     if (hasError) {
@@ -86,21 +76,7 @@ function ArtworksList() {
                                     <Truncator>{artwork.data().title}</Truncator>
                                 </div>
                             </Link>
-                            <div className="w-full flex flex-row gap-2 p-2">
-                                <Link to={`/edit/${artwork.id}`}>
-                                    <button
-                                        className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                                    >
-                                        Edit
-                                    </button>
-                                </Link>
-                                <button
-                                    onClick={() => handleDelete(artwork.id)}
-                                    className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                                >
-                                    Delete
-                                </button>
-                            </div>
+                            
                         </div>
                     })}
                 </div>
