@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
-import TomeSvg from '../assets/Tome.svg';
+import TomeDiamondSvg from '../assets/TomeWithDiamond.svg';
 
 function EmailForm() {
     const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ function EmailForm() {
         <div className="fixed inset-0 flex items-center justify-center bg-[url(././assets/Dec022023Photoshoot-009.jpg)] bg-cover bg-center w-full h-svh">
             <div className="bg-white shadow-md rounded w-112 border-gray-300 bg-clip-border overflow-hidden">
                 <div className="flex items-center justify-center w-full h-40 bg-blue-200">
-                    <img src={TomeSvg} alt="Tome Logo" className="sm" />
+                    <img src={TomeDiamondSvg} alt="Tome Logo" className="sm" />
                 </div>
                 <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4">
                     <h2 className="text-xl font-semibold pt-4 pb-8">

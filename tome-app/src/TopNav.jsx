@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { auth } from './FirebaseConfig';
-import TomeSvg from './assets/Tome.svg';
+import TomeInlineSvg from './assets/TomeInline.svg';
 import { Link } from 'react-router-dom';
 
 function TopNav() {
@@ -25,7 +25,7 @@ function TopNav() {
     }
     return (
         <div className="flex flex-row justify-between border-b border-gray-300 items-center p-4 pl-6 pr-6 w-full m-0 relative top-0 left-0 bg-white">
-            <Link to="/"><img src={TomeSvg} alt="Tome Logo" className="sm" /></Link>
+            <Link to="/"><img src={TomeInlineSvg} alt="Tome Logo" className="sm" /></Link>
 
                 {user ? (
                     <div className="flex flex-row gap-2">
