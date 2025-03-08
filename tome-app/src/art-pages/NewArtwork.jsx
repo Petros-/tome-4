@@ -5,6 +5,7 @@ import { auth, db, storage } from '../FirebaseConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import { setAnalyticsCollectionEnabled } from "firebase/analytics";
 import PropTypes from 'prop-types';
+import MediumDropdown from "../fields/MediumDropdown";
 
 function NewArtwork({ existingData }) {
     // get id from url if editing
@@ -125,13 +126,7 @@ function NewArtwork({ existingData }) {
                                 <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-1">
                                     <div className="w-full space-y-6">
                                         <label htmlFor="artwork-medium" className="block text-gray-700 text-sm font-bold mb-2 text-left">Medium</label>
-                                        <input type="text"
-                                            id="artwork-medium"
-                                            value={medium}
-                                            onChange={(e) => setMedium(e.target.value)}
-                                            className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            data-form-type="other"
-                                        />
+                                        <MediumDropdown selectedValue={medium} onChange={(e) => setMedium(e.target.value)} />
                                     </div>
                                 </div>
                             </div>

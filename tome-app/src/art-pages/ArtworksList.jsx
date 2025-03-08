@@ -60,7 +60,7 @@ function ArtworksList() {
     }
 
     if (hasError) {
-        return <h2>There was an error. Peter wrote this</h2>
+        return <h2>There was an error. Peter wrote this. Peter, go figure it out.</h2>
     }
 
     return (
