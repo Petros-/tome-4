@@ -4,6 +4,15 @@ import { auth, db } from '../FirebaseConfig';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 
+export const handleDelete = async (id, user, setArtworks) => {
+    try {
+        await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
+        setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
+        console.log("Deleted artwork:", id);
+    } catch (error) {
+        console.error("Error with the delete:", error)
+    }
+}
 
 function ArtworksList() {
     const [user] = useAuthState(auth);
@@ -44,15 +53,7 @@ function ArtworksList() {
         fetchArt();
     }, [user]);
 
-    const handleDelete = async (id) => {
-        try {
-            await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
-            setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
-            console.log("Deleted artwork:", id);
-        } catch (error) {
-            console.error("Error with the delete:", error)
-        }
-    }
+    
 
     if (isLoading) {
         return <h2>Loading...</h2>
