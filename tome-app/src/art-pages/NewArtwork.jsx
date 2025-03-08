@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import { auth, db, storage } from '../FirebaseConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import { setAnalyticsCollectionEnabled } from "firebase/analytics";
+import PropTypes from 'prop-types';
 
 function NewArtwork({ existingData }) {
     // get id from url if editing
@@ -148,5 +149,11 @@ function NewArtwork({ existingData }) {
         </>
     )
 }
+
+NewArtwork.propTypes = {
+    title: PropTypes.string.isRequired,
+    medium: PropTypes.string,
+    imageURL: PropTypes.file
+  };
 
 export default NewArtwork;
