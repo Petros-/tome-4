@@ -49,11 +49,11 @@ function EmailForm() {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-[url(././assets/Dec022023Photoshoot-009.jpg)] bg-cover bg-center w-full h-svh">
-            <div className="bg-white shadow-md rounded w-112 border-gray-300 bg-clip-border overflow-hidden">
-                <div className="flex items-center justify-center w-full h-40 bg-blue-200">
+            <div className="shadow-md rounded-t-lg border-gray-300 bg-clip-border overflow-hidden">
+                <div className="flex items-center justify-center w-full h-40 bg-blue-200 opacity-90">
                     <img src={TomeDiamondSvg} alt="Tome Logo" className="sm" />
                 </div>
-                <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4">
+                <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4 bg-white rounded-b-lg">
                     <h2 className="text-xl font-semibold pt-4 pb-8">
                         {isSignUp ? "Create an account" : "Sign into an existing account"}
                     </h2>
@@ -81,7 +81,7 @@ function EmailForm() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between gap-8">
                         <p className="text-sm">
                             {isSignUp ? "Already have an account?" : "Don't have an account?"}
                             <button type="button" className="text-blue-500 hover:underline ml-1" onClick={() => setIsSignUp(!isSignUp)}>
