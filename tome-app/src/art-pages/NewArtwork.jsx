@@ -11,7 +11,7 @@ function NewArtwork({ existingData }) {
     const { id } = useParams();
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
-    const [imageURL, setImageURL] = useState('');
+    const [imageURL, setImageURL] = useState(null);
     const [title, setTitle] = useState('');
     const [medium, setMedium] = useState('');
     const [uploading, setUploading] = useState(false);
@@ -83,7 +83,7 @@ function NewArtwork({ existingData }) {
                 setTitle('')
                 setMedium('')
                 setFile(null);
-                setImageURL('');
+                setImageURL(null);
             }
 
             // go back to the list after editing the form
