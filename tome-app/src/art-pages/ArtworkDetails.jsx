@@ -61,16 +61,17 @@ function ArtworkDetails() {
                 <div className="flex flex-col min-h-screen w-full p-0">
                     <TopNav />
                     <div className="flex flex-row gap-8 h-full p-20">
-                        <div className="border">
+                        <div className="">
                             <img
                                 src={artwork.image}
                                 alt={`An artwork titled ${artwork.title} done in ${artwork.medium}`}
                                 className="object-contain h-full"
                             />
                         </div>
-                        <div className="flex flex-col gap-4 w-1/2 border">
-                            <h1>{artwork.title}</h1>
-                            <p>Something else</p>
+                        <div className="flex flex-col gap-4 w-1/2">
+                            <h1 className="text-xl">{artwork.title}</h1>
+                            <p>{artwork.medium}</p>
+                            <p>{`Added ${artwork.createdAt?.toDate().toLocaleString()}`}</p>
                         </div>
                     </div>
                 </div>
