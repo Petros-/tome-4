@@ -48,7 +48,7 @@ function EmailForm() {
     }
 
     return (
-        <div className="flex items-center justify-center bg-gray-100 w-full h-svh">
+        <div className="flex items-center justify-center bg-[url(././assets/Dec022023Photoshoot-009.jpg)] bg-cover bg-center w-full h-svh">
             <div className="bg-white shadow-md rounded w-112 border-gray-300 bg-clip-border overflow-hidden">
                 <div className="flex items-center justify-center w-full h-40 bg-blue-200">
                     <img src={TomeSvg} alt="Tome Logo" className="sm" />
