@@ -25,16 +25,23 @@ function ArtworksList() {
                 onSnapshot(q, (doc) => {
                     setArtworks(doc.docs);
                 });
+
+                const unsubscribe = onSnapshot(q, (doc) => {
+                    setArtworks(doc.docs);
+                });
+                
+                return () => unsubscribe();
+
             } catch (error) {
                 console.log("An error happened:", error);
                 setHasError(true)
             } finally {
                 setIsLoading(false);
+
             }
+
         };
         fetchArt();
-        return () => onSnapshot;
-
     }, [user]);
 
     const handleDelete = async (id) => {
@@ -59,14 +66,14 @@ function ArtworksList() {
         <>
             <div className="grid grid-rows-auto gap-4 w-full items-center px-12 pt-4">
                 <div className="border border-gray-200 bg-gray-50 rounded flex space-x-between w-full p-4 items-center">
-                    <p className="flex flex-grow-1 ">You have X artworks in Tome.</p>
+                    <p className="flex flex-grow-1 ">You have {artworks.length} {artworks.length === 1 ? "artwork" : "artworks"} in Tome.</p>
                     <Link to="/new" >
                         <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Add an artwork
                         </button>
                     </Link>
                 </div>
-                <div className="container m-auto grid grid-cols-3 gap-4 w-full">
+                <div className="grid grid-cols-3 gap-4 w-full">
                     {artworks.map((artwork) => {
                         return <div key={artwork.id} className="flex flex-col gap-2 items-center border border-gray-300 w-full rounded m-auto">
                             <div className="bg-blue-200 w-full h-48 flex justify-center items-center">
