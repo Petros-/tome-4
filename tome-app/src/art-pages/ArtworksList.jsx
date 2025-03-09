@@ -12,7 +12,7 @@ function ArtworksList() {
     const [artworks, setArtworks] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
-    const [showTitles, setShowTitles] = useState(true);
+    const [showTitles, setShowTitles] = useState(false);
 
     useEffect(() => {
 
@@ -60,10 +60,10 @@ function ArtworksList() {
         <>
             <div className="grid grid-rows-auto gap-4 w-full items-center px-12 pt-4">
                 <div className="flex flex-row gap-4 h-auto">
-                    <div className="h-full w-48 border border-gray-200 bg-gray-50 rounded p-4 items-center justify-center">
-                        <div className="flex items-center mb-4">
+                    <div className="h-full w-72 border border-gray-200 bg-gray-50 rounded items-center justify-center">
+                        <div className="flex items-center">
                             <Toggle isOn={showTitles} toggle={() => setShowTitles(prev => !prev)} />
-                            <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label className="ms-2 text-sm">
                                 Show titles
                             </label>
                         </div>
