@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 function MediumDropdown({ selectedValue, onChange }) {
@@ -17,9 +17,9 @@ function MediumDropdown({ selectedValue, onChange }) {
 
     return (
         <div>
-            {/* <label htmlFor="medium-dropdown">{dropdownLabel}</label> */}
+            <label htmlFor="medium-dropdown">{dropdownLabel}</label>
             <select id="medium-dropdown" value={selectedValue} onChange={onChange}>
-                <option value="">-- Please choose an option --</option>
+                <option value="">Please choose an option</option>
                 {mediums.map((medium, index) => (
                     <option key={index} value={medium}>
                         {medium}

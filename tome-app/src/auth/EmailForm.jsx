@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../FirebaseConfig';
 import { getFirestore, collection, doc, setDoc } from "firebase/firestore";
 import TomeDiamondSvg from '../assets/TomeWithDiamond.svg';
@@ -19,11 +19,11 @@ function EmailForm() {
 
         try {
 
-            // let userCredential;
+            let userCredential;
 
             if (isSignUp) {
 
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
 
                 const db = getFirestore();

@@ -1,6 +1,6 @@
 import { vi, expect, test } from 'vitest'
 import { handleDelete } from '../art-pages/ArtworkDetails'
-import { deleteDoc, doc, getFirestore } from 'firebase/firestore';
+import { deleteDoc, doc } from 'firebase/firestore';
 
 // mock some fake data for the test
 vi.mock('firebase/firestore', async (importOriginal) => {

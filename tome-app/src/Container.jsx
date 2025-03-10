@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TopNav from './TopNav'
 import ArtworksList from './art-pages/ArtworksList'
 

@@ -1,3 +1,4 @@
+import React from 'react';
 import './App.css'
 import Container from './Container'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
@@ -7,11 +8,16 @@ import NewArtwork from './art-pages/NewArtwork'
 import EditArtwork from './art-pages/EditArtwork'
 import EmailForm from "./auth/EmailForm";
 import { auth } from "./FirebaseConfig"; 
+import PropTypes from 'prop-types';
 
 function ProtectedRoute({children}) {
   const [user] = useAuthState(auth)
   return user ? children : <Navigate to="/"/>;
 }
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.node.isRequired, 
+};
 
 function App() {
   const [user, loading] = useAuthState(auth);

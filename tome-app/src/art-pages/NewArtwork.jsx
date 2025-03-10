@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, db, storage } from '../FirebaseConfig';
 import { useParams, useNavigate } from 'react-router-dom';
-import { setAnalyticsCollectionEnabled } from "firebase/analytics";
 import PropTypes from 'prop-types';
 import MediumDropdown from "../fields/MediumDropdown";
 
@@ -146,9 +145,12 @@ function NewArtwork({ existingData }) {
 }
 
 NewArtwork.propTypes = {
-    title: PropTypes.string.isRequired,
-    medium: PropTypes.string,
-    imageURL: PropTypes.file
+    existingData: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        medium: PropTypes.string,
+        imageURL: PropTypes.string,
+        image: PropTypes.file,
+    }),
   };
 
 export default NewArtwork;

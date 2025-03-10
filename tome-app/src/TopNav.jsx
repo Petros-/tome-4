@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from './FirebaseConfig';
 import TomeInlineSvg from './assets/TomeInline.svg';
 import { Link } from 'react-router-dom';

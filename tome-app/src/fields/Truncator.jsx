@@ -1,13 +1,18 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-function Truncator({children}) {
+function Truncator({ children }) {
   return (
     <div
-        className="truncate"
+      className="truncate"
     >
-        {children}      
+      {children}
     </div>
   )
 }
+
+Truncator.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default Truncator
