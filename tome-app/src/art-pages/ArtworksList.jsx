@@ -85,7 +85,11 @@ function ArtworksList() {
                                     <div className="w-full h-60 flex-shrink-0">
                                         <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                                     </div>
-                                    {showTitles ? <Truncator>{artwork.data().title}</Truncator> : ''}  
+                                    {showTitles ? <Truncator>
+                                        <div className="p-4">
+                                            {artwork.data().title}
+                                        </div>
+                                        </Truncator> : ''}  
                                 </div>
                             </Link>
 
