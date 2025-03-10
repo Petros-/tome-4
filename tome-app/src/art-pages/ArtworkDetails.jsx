@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { collection, getDocs, doc, getDoc, onSnapshot } from "firebase/firestore";
-import { useParams, Link } from 'react-router-dom';
+import { doc, getDoc, deleteDoc } from "firebase/firestore";
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
 import TopNav from "../TopNav";
-
-export const handleDelete = async (id, user, setArtworks) => {
-    try {
-        await deleteDoc(doc(db, 'accounts', user.uid, 'artworks', id));
-        setArtworks(prevArtworks => prevArtworks.filter(artwork => artwork.id !== id));
-        console.log("Deleted artwork:", id);
-    } catch (error) {
-        console.error("Error with the delete:", error)
-    }
-}
 
 function ArtworkDetails() {
     const user = auth.currentUser;
@@ -20,6 +10,7 @@ function ArtworkDetails() {
     const [artwork, setArtwork] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const navigate = useNavigate();
 
     //show details
     useEffect(() => {
@@ -31,19 +22,11 @@ function ArtworkDetails() {
 
         const getData = async () => {
 
-
-
             try {
                 const docRef = doc(db, "accounts", user.uid, "artworks", id);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
-                    setArtwork(docSnap.data())
-                } else {
-                    setHasError(true);
-                }
-
-                if (docSnap.exists()) {
-                    setArtwork(docSnap.data());
+                    setArtwork({ id: docSnap.id, ...docSnap.data() });
                 } else {
                     console.log("Didn't find that artwork");
                     setHasError(true);
@@ -58,6 +41,25 @@ function ArtworkDetails() {
         };
         getData();
     }, [id, user])
+
+ const handleDelete = async () => {
+
+        if (!user || !user.uid) {
+            console.error("handleDelete: No authenticated user found.");
+            return;
+        }
+    
+        try {
+            const docRef = doc(db, 'accounts', user.uid, 'artworks', id);
+            await deleteDoc(docRef);
+            console.log("Deleted artwork:", id);
+            
+            navigate('/');
+        } catch (error) {
+            console.error("Error with the delete:", error)
+        }
+    }
+    
 
     console.log(artwork);
 
@@ -92,7 +94,7 @@ function ArtworkDetails() {
                                         </button>
                                     </Link>
                                     <button
-                                        onClick={() => handleDelete(artwork.id)}
+                                        onClick={() => handleDelete()}
                                         className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
                                     >
                                         Delete
