@@ -9,6 +9,7 @@ import EditArtwork from './art-pages/EditArtwork'
 import EmailForm from "./auth/EmailForm";
 import { auth } from "./FirebaseConfig"; 
 import PropTypes from 'prop-types';
+import { ArtworksProvider } from './art-pages/ArtworksContext';
 
 function ProtectedRoute({children}) {
   const [user] = useAuthState(auth)
@@ -26,14 +27,16 @@ function App() {
 
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={user? <Container /> : <EmailForm />} />
-          <Route path="/artwork/:id" element={<ProtectedRoute><ArtworkDetails /></ProtectedRoute>} />
-          <Route path="/new" element={<ProtectedRoute><NewArtwork /></ProtectedRoute>} />
-          <Route path="/edit/:id" element={<ProtectedRoute><EditArtwork /></ProtectedRoute>} />
-        </Routes>
-      </BrowserRouter>
+      <ArtworksProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={user? <Container /> : <EmailForm />} />
+            <Route path="/artwork/:id" element={<ProtectedRoute><ArtworkDetails /></ProtectedRoute>} />
+            <Route path="/new" element={<ProtectedRoute><NewArtwork /></ProtectedRoute>} />
+            <Route path="/edit/:id" element={<ProtectedRoute><EditArtwork /></ProtectedRoute>} />
+          </Routes>
+        </BrowserRouter>
+      </ArtworksProvider>
     </>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useArtworks } from "./ArtworksContext";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { auth, db } from '../FirebaseConfig';
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -8,53 +9,13 @@ import Loader from "../fields/Loader";
 import Toggle from "../fields/Toggle";
 
 function ArtworksList() {
-    const [user] = useAuthState(auth);
-    const [artworks, setArtworks] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [hasError, setHasError] = useState(false);
+    const { artworks, isLoading, hasError } = useArtworks();
     const [showTitles, setShowTitles] = useState(false);
 
-    useEffect(() => {
+    // const [user] = useAuthState(auth);
 
-        if (!user) {
-            console.log("No authenticated user. Skipping Firestore request.");
-            return;
-        }
-
-        const fetchArt = async () => {
-            try {
-                const q = query(collection(db, "accounts", user.uid, "artworks"), orderBy("createdAt"));
-
-                const unsubscribe = onSnapshot(q, (snapshot) => {
-                    setArtworks(snapshot.docs);
-                });
-
-                return () => unsubscribe();
-
-            } catch (error) {
-                console.log("An error happened:", error);
-                setHasError(true)
-            } finally {
-                setIsLoading(false);
-
-            }
-
-        };
-        fetchArt();
-    }, [user]);
-
-
-
-    if (isLoading) {
-        return <>
-            <h2>Loading...</h2>
-            <Loader />
-        </>
-    }
-
-    if (hasError) {
-        return <h2>There was an error. Peter wrote this. Peter, go figure it out.</h2>
-    }
+    if (isLoading) return <Loader />
+    if (hasError) return <h2>There was an error, Peter. Go fix it</h2>
 
     return (
         <>
@@ -83,7 +44,7 @@ function ArtworksList() {
                             <Link to={`/artwork/${artwork.id}`} className="w-full">
                                 <div className="w-full flex flex-col flex-shrink-0">
                                     <div className="w-full h-60 flex-shrink-0">
-                                        <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
+                                        <img src={artwork.image} alt={artwork.title} className="w-full h-full object-cover" />
                                     </div>
                                     {showTitles ? <Truncator>
                                         <div className="p-4 truncate">
