@@ -15,13 +15,15 @@ function NewArtwork({ existingData }) {
     const [imageURL, setImageURL] = useState(null);
     const [title, setTitle] = useState('');
     const [medium, setMedium] = useState('');
+    const [artworkTags, setArtworkTags] = useState('');
     const [uploading, setUploading] = useState(false);
 
     //populate the form if editing an existing item
     useEffect(() => {
         if (existingData) {
             setTitle(existingData.title || '');
-            setMedium(existingData.medium || '')
+            setMedium(existingData.medium || '');
+            setArtworkTags(existingData.tags || '');
             setImageURL(existingData.image || '');
         }
     }, [existingData]);
@@ -62,6 +64,7 @@ function NewArtwork({ existingData }) {
             const artworkData = {
                 title,
                 medium,
+                tags: artworkTags,
                 image: uploadedImageUrl,
                 updatedAt: new Date()
             }
@@ -105,28 +108,36 @@ function NewArtwork({ existingData }) {
                         <div className="flex items-center flex-col justify-center w-1/2 sm:w-full h-full bg-blue-200">
                             <img src={imageURL} />
                             <button className="border border-gray-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                <input type="file" onChange={handleImageChange} className="border text-blue-600 flex justify-center w-full"/>
+                                <input type="file" onChange={handleImageChange} className="border text-blue-600 flex justify-center w-full" />
                             </button>
                         </div>
                         <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between sm:w-full sm:h-1/2">
                             <div className="flex flex-col gap-x-6 gap-y-8 sm:grid-cols-1">
-                                <div className="">
-                                    <div className="w-full space-y-6">
-                                        <label htmlFor="artwork-title" className="block text-gray-700 text-sm font-bold mb-2 text-left">Title</label>
-                                        <input type="text"
-                                            id="artwork-title"
-                                            value={title}
-                                            onChange={(e) => setTitle(e.target.value)}
-                                            className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                            data-form-type="other"
-                                        />
-                                    </div>
+                                <div className="w-full space-y-6">
+                                    <label htmlFor="artwork-title" className="block text-gray-700 text-sm font-bold mb-2 text-left">Title</label>
+                                    <input type="text"
+                                        id="artwork-title"
+                                        value={title}
+                                        onChange={(e) => setTitle(e.target.value)}
+                                        className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        data-form-type="other"
+                                    />
                                 </div>
                                 <div className="grid grid-cols-1 gap-y-8 sm:grid-cols-1">
                                     <div className="w-full space-y-6">
                                         <label htmlFor="artwork-medium" className="block text-gray-700 text-sm font-bold mb-2 text-left">Medium</label>
                                         <MediumDropdown selectedValue={medium} onChange={(e) => setMedium(e.target.value)} />
                                     </div>
+                                </div>
+                                <div className="w-full space-y-6">
+                                    <label htmlFor="artwork-tags" className="block text-gray-700 text-sm font-bold mb-2 text-left">Tags</label>
+                                    <input type="text"
+                                        id="artwork-tags"
+                                        value={artworkTags}
+                                        onChange={(e) => setArtworkTags(e.target.value)}
+                                        className="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                        data-form-type="other"
+                                    />
                                 </div>
                             </div>
                             <div className="flex flex-row w-full gap-4">
@@ -138,6 +149,7 @@ function NewArtwork({ existingData }) {
                                         } else {
                                             setTitle("");
                                             setMedium("");
+                                            setArtworkTags("");
                                             setFile(null);
                                             setImageURL(null);
                                         }
@@ -166,9 +178,8 @@ NewArtwork.propTypes = {
     existingData: PropTypes.shape({
         title: PropTypes.string.isRequired,
         medium: PropTypes.string,
-        imageURL: PropTypes.string,
-        image: PropTypes.file,
+        image: PropTypes.string,
     }),
-  };
+};
 
 export default NewArtwork;

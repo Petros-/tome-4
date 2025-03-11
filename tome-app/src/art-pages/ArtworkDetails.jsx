@@ -46,6 +46,8 @@ function ArtworkDetails() {
                         <h1 className="text-4xl">{artwork.title}</h1>
                         <p>{artwork.medium}</p>
                         <p>{`Added ${artwork.createdAt?.toDate().toLocaleString()}`}</p>
+                        <h3>Tags</h3>
+                        <p>{artwork.tags}</p>
                         <div className="flex flex-col items-center justify-center w-full">
                             <div className="w-full flex flex-row gap-2 p-2 justify-center">
                                 <Link to={`/edit/${artwork.id}`}>
