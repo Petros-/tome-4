@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useArtworks } from "./ArtworksContext";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { auth, db } from '../FirebaseConfig';
+import { auth } from '../FirebaseConfig';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Link } from "react-router-dom";
 import Truncator from "../fields/Truncator";
@@ -11,7 +10,7 @@ import Toggle from "../fields/Toggle";
 function ArtworksList() {
     const { artworks, isLoading, hasError } = useArtworks();
     const [showTitles, setShowTitles] = useState(false);
-    const [user, loading, error] = useAuthState(auth);
+    const [user, loading] = useAuthState(auth);
 
     if (loading) return <Loader />
     if (!user) return <p>Please sign in to view your artworks.</p>

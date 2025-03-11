@@ -42,6 +42,8 @@ function EmailForm() {
 
                 console.log("Successful signup: ", user);
                 setIsSignUp(false);
+
+                window.location.reload();
             } else {
                 userCredential = await signInWithEmailAndPassword(auth, email, password);
                 console.log("Successful sign in: ", userCredential.user);
@@ -108,8 +110,6 @@ function EmailForm() {
                         )}
                         </div>
                     )}
-                
-
                     
 
                     <div className="flex items-center justify-between gap-8">

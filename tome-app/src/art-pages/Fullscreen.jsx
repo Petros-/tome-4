@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 
 function Fullscreen({ isOpen, onClose, children, onNext, onPrevious, hasNext, hasPrevious }) {
     const [showControls, setShowControls] = useState(false);
+    const hideTimeout = useRef(null);
 
     if (!isOpen) {
         return null;
@@ -9,8 +11,10 @@ function Fullscreen({ isOpen, onClose, children, onNext, onPrevious, hasNext, ha
 
     const handleMouseMove = () => {
         setShowControls(true);
-        clearTimeout(hideTimeout);
-        hideTimeout = setTimeout(() => setShowControls(false), 4000);
+        if (hideTimeout.current) {
+            clearTimeout(hideTimeout.current);
+        }
+        hideTimeout.current = setTimeout(() => setShowControls(false), 4000);
     }
 
     return (
@@ -20,7 +24,7 @@ function Fullscreen({ isOpen, onClose, children, onNext, onPrevious, hasNext, ha
             onMouseLeave={() => setShowControls(false)}
         >
             <div className="relative w-full h-full flex items-center justify-center">
-                {children || <p className="text-white">Hm, there's no artwork to see here</p>}
+                {children || <p className="text-white">Hm, there&apos;s no artwork to see here</p>}
                 {showControls &&
                     <div className="fixed inset-0 z-51 w-full h-full">
                         <button
@@ -55,4 +59,14 @@ function Fullscreen({ isOpen, onClose, children, onNext, onPrevious, hasNext, ha
     )
 };
 
-export default Fullscreen
+export default Fullscreen;
+
+Fullscreen.propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    children: PropTypes.node,
+    onNext: PropTypes.func,
+    onPrevious: PropTypes.func,
+    hasNext: PropTypes.bool,
+    hasPrevious: PropTypes.bool,
+}

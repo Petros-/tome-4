@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState} from "react";
 import { collection, query, orderBy, onSnapshot} from "firebase/firestore";
 import { auth, db } from '../FirebaseConfig';
+import PropTypes from "prop-types";
 
 const ArtworksContext = createContext();
 
@@ -39,3 +40,7 @@ export function ArtworksProvider({ children }) {
 export function useArtworks() {
     return useContext(ArtworksContext);
 }
+
+ArtworksProvider.propTypes = {
+    children: PropTypes.node.isRequired,
+};
