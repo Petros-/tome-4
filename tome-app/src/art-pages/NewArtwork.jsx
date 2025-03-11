@@ -129,13 +129,31 @@ function NewArtwork({ existingData }) {
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                type="submit"
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                disabled={uploading}
-                            >
-                                {uploading ? "Uploading..." : "Save artwork"}
-                            </button>
+                            <div className="flex flex-row w-full gap-4">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        if (id) {
+                                            navigate("/");
+                                        } else {
+                                            setTitle("");
+                                            setMedium("");
+                                            setFile(null);
+                                            setImageURL(null);
+                                        }
+                                    }}
+                                    className="bg-white border border-gray-300 hover:bg-blue-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+                                    disabled={uploading}
+                                >
+                                    {uploading ? "Uploading..." : "Save artwork"}
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
