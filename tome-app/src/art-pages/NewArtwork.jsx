@@ -101,14 +101,14 @@ function NewArtwork({ existingData }) {
         <>
             <div className="flex items-center justify-center bg-gray-100 w-full h-svh">
                 <div className="bg-white shadow-md rounded w-[80%] h-[80%] bg-clip-border overflow-hidden">
-                    <form onSubmit={handleSubmit} className="flex flex-row w-full h-full">
-                        <div className="flex items-center flex-col justify-center w-1/2 h-full bg-blue-200">
+                    <form onSubmit={handleSubmit} className="flex flex-row w-full h-full md:flex-row sm:flex-col xs:flex-col">
+                        <div className="flex items-center flex-col justify-center w-1/2 sm:w-full h-full bg-blue-200">
                             <img src={imageURL} />
                             <button className="border border-gray-300 py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 <input type="file" onChange={handleImageChange} className="border text-blue-600 flex justify-center w-full"/>
                             </button>
                         </div>
-                        <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between">
+                        <div className="w-1/2 space-y-8 p-8 flex flex-col justify-between sm:w-full sm:h-1/2">
                             <div className="flex flex-col gap-x-6 gap-y-8 sm:grid-cols-1">
                                 <div className="">
                                     <div className="w-full space-y-6">
