@@ -77,7 +77,7 @@ function ArtworksList() {
                         </Link>
                     </div>
                 </div>
-                <div className="grid grid-cols-3 gap-4 w-full">
+                <div className="grid gap-4 xs:grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 w-full">
                     {artworks.map((artwork) => {
                         return <div key={artwork.id} className="flex flex-col gap-2 items-center border border-gray-300 w-full rounded m-auto">
                             <Link to={`/artwork/${artwork.id}`} className="w-full">
@@ -86,7 +86,7 @@ function ArtworksList() {
                                         <img src={artwork.data().image} alt={artwork.data().title} className="w-full h-full object-cover" />
                                     </div>
                                     {showTitles ? <Truncator>
-                                        <div className="p-4">
+                                        <div className="p-4 truncate">
                                             {artwork.data().title}
                                         </div>
                                         </Truncator> : ''}  
