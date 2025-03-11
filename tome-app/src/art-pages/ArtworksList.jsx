@@ -11,9 +11,10 @@ import Toggle from "../fields/Toggle";
 function ArtworksList() {
     const { artworks, isLoading, hasError } = useArtworks();
     const [showTitles, setShowTitles] = useState(false);
+    const [user, loading, error] = useAuthState(auth);
 
-    // const [user] = useAuthState(auth);
-
+    if (loading) return <Loader />
+    if (!user) return <p>Please sign in to view your artworks.</p>
     if (isLoading) return <Loader />
     if (hasError) return <h2>There was an error, Peter. Go fix it</h2>
 
@@ -48,7 +49,7 @@ function ArtworksList() {
                                     </div>
                                     {showTitles ? <Truncator>
                                         <div className="p-4 truncate">
-                                            {artwork.data().title}
+                                            {artwork.title}
                                         </div>
                                         </Truncator> : ''}  
                                 </div>

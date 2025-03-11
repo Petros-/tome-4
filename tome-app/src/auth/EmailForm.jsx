@@ -7,13 +7,17 @@ import TomeDiamondSvg from '../assets/TomeWithDiamond.svg';
 function EmailForm() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [isSignUp, setIsSignUp] = useState(true)
+    const [isSignUp, setIsSignUp] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [suggestSignIn, setSuggestSignIn] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setErrorMessage('');
+        setSuggestSignIn(false);
 
         if (!email.trim() || !password.trim()) {
-            console.log("Error: Email and password cannot be empty.");
+            setErrorMessage("Error: Email and password cannot be empty.");
             return;
         }
 
@@ -43,7 +47,11 @@ function EmailForm() {
                 console.log("Successful sign in: ", userCredential.user);
             }
         } catch (error) {
-            console.log("Unsuccessful: ", error.message)
+            if (error.code === "auth/email-already-in-use") {
+                setErrorMessage("This email is already in use.");
+                setSuggestSignIn(true);
+            }
+            setErrorMessage(`Whoops, there was a problem: ${error.message}`);
         }
     }
 
@@ -55,7 +63,7 @@ function EmailForm() {
                 </div>
                 <form onSubmit={handleSubmit} className="px-8 pt-6 pb-8 mb-4 bg-white rounded-b-lg">
                     <h2 className="text-xl font-semibold pt-4 pb-8">
-                        {isSignUp ? "Create an account" : "Sign into an existing account"}
+                        {isSignUp ? "Store your artworks" : "Sign into an existing account"}
                     </h2>
                     <div className="mb-6">
                         <label className="block text-gray-700 text-sm font-bold mb-2 text-left" htmlFor="email">Email</label>
@@ -81,6 +89,29 @@ function EmailForm() {
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
+
+                    {errorMessage && (
+                        <div className="text-sm border border-red-300 text-red-700 bg-red-50 p-4 rounded-md mb-4">
+                            {errorMessage}
+                            {suggestSignIn && (
+                        <p className="mt-2">
+                            Did you mean to{" "}
+                            <button
+                                type="button"
+                                onClick={() => setIsSignUp(false)}
+                                className="text-blue-400"
+                            >
+                                sign in 
+                            </button>
+                            {" "}instead?
+                            </p>
+                        )}
+                        </div>
+                    )}
+                
+
+                    
+
                     <div className="flex items-center justify-between gap-8">
                         <p className="text-sm">
                             {isSignUp ? "Already have an account?" : "Don't have an account?"}

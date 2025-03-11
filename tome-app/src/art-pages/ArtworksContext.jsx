@@ -27,7 +27,7 @@ export function ArtworksProvider({ children }) {
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [auth.currentUser]);
 
     return (
         <ArtworksContext.Provider value={{artworks, isLoading, hasError}}>
