@@ -30,7 +30,7 @@ function TopNav() {
                 {user ? (
                     <div className="flex flex-row gap-2">
                         <p>{user.email}</p>
-                        <button onClick={handleSignOut}>Sign out</button>
+                        <button onClick={handleSignOut} className="text-blue-500">Sign out</button>
                     </div>
                 ) : (
                     <p>Sign in</p>

@@ -3,6 +3,7 @@ import { doc, getDoc, deleteDoc } from "firebase/firestore";
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
 import TopNav from "../TopNav";
+import Fullscreen from "./Fullscreen";
 
 function ArtworkDetails() {
     const user = auth.currentUser;
@@ -10,6 +11,7 @@ function ArtworkDetails() {
     const [artwork, setArtwork] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
     const navigate = useNavigate();
 
     //show details
@@ -42,24 +44,24 @@ function ArtworkDetails() {
         getData();
     }, [id, user])
 
- const handleDelete = async () => {
+    const handleDelete = async () => {
 
         if (!user || !user.uid) {
             console.error("handleDelete: No authenticated user found.");
             return;
         }
-    
+
         try {
             const docRef = doc(db, 'accounts', user.uid, 'artworks', id);
             await deleteDoc(docRef);
             console.log("Deleted artwork:", id);
-            
+
             navigate('/');
         } catch (error) {
             console.error("Error with the delete:", error)
         }
     }
-    
+
 
     console.log(artwork);
 
@@ -81,7 +83,7 @@ function ArtworkDetails() {
                             />
                         </div>
                         <div className="flex flex-col gap-4 w-1/2">
-                            <h1 className="text-xl">{artwork.title}</h1>
+                            <h1 className="text-4xl">{artwork.title}</h1>
                             <p>{artwork.medium}</p>
                             <p>{`Added ${artwork.createdAt?.toDate().toLocaleString()}`}</p>
                             <div className="flex flex-col items-center justify-center w-full">
@@ -99,6 +101,12 @@ function ArtworkDetails() {
                                     >
                                         Delete
                                     </button>
+                                    <button
+                                        onClick={() => setIsFullscreenOpen(true)}
+                                        className="border border-gray-400 hover:bg-blue-200 text-gray-800 py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                                    >
+                                        Fullscreen
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +117,9 @@ function ArtworkDetails() {
                 <p>Artwork not found</p>
             )}
 
-
+            <Fullscreen isOpen={isFullscreenOpen} onClose={() => setIsFullscreenOpen(false)}>
+                <img src={artwork?.image} alt="Fullscreen artwork" className="w-full h-full object-contain" />
+            </Fullscreen>
         </>
     )
 }
