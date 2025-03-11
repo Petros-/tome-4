@@ -12,9 +12,15 @@ function ArtworksList() {
     const [showTitles, setShowTitles] = useState(false);
     const [user, loading] = useAuthState(auth);
 
-    if (loading) return <Loader />
+    if (loading || isLoading) {
+        return (
+            <div className="flex items-center justify-center w-full h-full min-h-screen">
+                <Loader />
+            </div>
+        )
+    }
     if (!user) return <p>Please sign in to view your artworks.</p>
-    if (isLoading) return <Loader />
+
     if (hasError) return <h2>There was an error, Peter. Go fix it</h2>
 
     return (
@@ -50,7 +56,7 @@ function ArtworksList() {
                                         <div className="p-4 truncate">
                                             {artwork.title}
                                         </div>
-                                        </Truncator> : ''}  
+                                    </Truncator> : ''}
                                 </div>
                             </Link>
 

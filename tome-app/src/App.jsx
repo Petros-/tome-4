@@ -10,6 +10,7 @@ import EmailForm from "./auth/EmailForm";
 import { auth } from "./FirebaseConfig"; 
 import PropTypes from 'prop-types';
 import { ArtworksProvider } from './art-pages/ArtworksContext';
+import Loader from './fields/Loader';
 
 function ProtectedRoute({children}) {
   const [user] = useAuthState(auth)
@@ -23,7 +24,13 @@ ProtectedRoute.propTypes = {
 function App() {
   const [user, loading] = useAuthState(auth);
 
-  if (loading) return <h2>Loading...</h2>;
+  if (loading) {
+    return (
+        <div className="flex items-center justify-center w-full h-full min-h-screen">
+            <Loader />
+        </div>
+    )
+}
 
   return (
     <>

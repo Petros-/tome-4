@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import { auth, db } from '../FirebaseConfig';
 import NewArtwork from "./NewArtwork";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Loader from "../fields/Loader";
 
 function EditArtwork () {
     const [user] = useAuthState(auth);
@@ -40,7 +41,10 @@ function EditArtwork () {
 
     return (
         <>
-            {existingData ? <NewArtwork existingData={existingData} /> : <p>Loading...</p>}
+            {existingData ? <NewArtwork existingData={existingData} /> : 
+            <div className="flex items-center justify-center w-full h-full min-h-screen">
+                <Loader />
+            </div>}
         </>
     )
 }
