@@ -36,7 +36,15 @@ function ArtworksList() {
                         </div>
                     </div>
                     <div className="border border-gray-200 bg-gray-50 rounded flex justify-between w-full pl-8 pr-4 items-center">
-                        <p className="flex flex-grow">You have {artworks.length} {artworks.length === 1 ? "artwork" : "artworks"} in Tome.</p>
+                        <div className="flex gap-2">
+                            <p className="flex flex-grow">You have {artworks.length} {artworks.length === 1 ? "artwork" : "artworks"} in Tome.</p>
+                            <p>
+                                See them
+                                <span className="text-blue-500">
+                                   <Link to="/tags">{" "} by tag</Link>
+                                </span>
+                            </p>
+                        </div>
                         <Link to="/new" >
                             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Add an artwork

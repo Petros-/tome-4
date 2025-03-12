@@ -11,6 +11,7 @@ import { auth } from "./FirebaseConfig";
 import PropTypes from 'prop-types';
 import { ArtworksProvider } from './art-pages/ArtworksContext';
 import Loader from './fields/Loader';
+import TagList from './tag-pages/TagList';
 
 function ProtectedRoute({children}) {
   const [user] = useAuthState(auth)
@@ -38,6 +39,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={user? <Container /> : <EmailForm />} />
+            <Route path="/tags" element={<ProtectedRoute><TagList /></ProtectedRoute>} />
+            <Route path="/tag/:id"></Route>
             <Route path="/artwork/:id" element={<ProtectedRoute><ArtworkDetails /></ProtectedRoute>} />
             <Route path="/new" element={<ProtectedRoute><NewArtwork /></ProtectedRoute>} />
             <Route path="/edit/:id" element={<ProtectedRoute><EditArtwork /></ProtectedRoute>} />
