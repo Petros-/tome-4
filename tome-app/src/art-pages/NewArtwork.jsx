@@ -178,6 +178,7 @@ function NewArtwork({ existingData }) {
                                             setArtworkTags("");
                                             setFile(null);
                                             setImageURL(null);
+                                            navigate("/");
                                         }
                                     }}
                                     className="bg-white border border-gray-300 hover:bg-blue-200 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
