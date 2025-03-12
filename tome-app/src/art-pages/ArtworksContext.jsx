@@ -7,16 +7,18 @@ const ArtworksContext = createContext();
 
 export function ArtworksProvider({ children }) {
     const [artworks, setArtworks] = useState([]);
+    const [tags, setTags] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
         const user = auth.currentUser;
         if (!user) return;
-
+        
+        // get the artworks
         const q = query(collection(db, "accounts", user.uid, "artworks"), orderBy("createdAt", "asc"));
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
+        const unsubscribeArtworks = onSnapshot(q, (snapshot) => {
             setArtworks(snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
@@ -27,11 +29,26 @@ export function ArtworksProvider({ children }) {
             setHasError(true);
         });
 
-        return () => unsubscribe();
+        // get the tags too
+        const tagsQuery = collection(db, "accounts", user.uid, "tags");
+        const unsubscribeTags = onSnapshot(tagsQuery, (snapshot) => {
+            setTags(snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })));
+        }, (error) => {
+            console.error("Error fetching tags:", error);
+            setHasError(true);
+        });
+
+        return () => {
+            unsubscribeArtworks();
+            unsubscribeTags();
+        }
     }, [auth.currentUser]);
 
     return (
-        <ArtworksContext.Provider value={{artworks, isLoading, hasError}}>
+        <ArtworksContext.Provider value={{artworks, tags, isLoading, hasError}}>
             {children}
         </ArtworksContext.Provider>
     );
