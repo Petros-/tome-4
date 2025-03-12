@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc, getDoc } from "firebase/firestore";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { auth, db, storage } from '../FirebaseConfig';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -41,6 +41,7 @@ function NewArtwork({ existingData }) {
 
         try {
             let uploadedImageUrl = imageURL;
+            let artworkId;
 
             if (file) {
                 setUploading(true);
@@ -71,6 +72,7 @@ function NewArtwork({ existingData }) {
 
             if (id) {
                 await setDoc(doc(db, "accounts", user.uid, "artworks", id), artworkData, { merge: true });
+                artworkId = id;
                 console.log("Document updated:", id);
 
             } else {
@@ -81,6 +83,7 @@ function NewArtwork({ existingData }) {
                     createdAt: new Date()
                 });
 
+                artworkId = docRef.id;
                 console.log("Doc written, id:", docRef.id);
 
                 // clear the fields
@@ -88,6 +91,29 @@ function NewArtwork({ existingData }) {
                 setMedium('')
                 setFile(null);
                 setImageURL(null);
+            }
+
+            const tagList = artworkTags ? artworkTags.split(",").map(tag => tag.trim().toLowerCase()) : [];
+
+            for (const tag of tagList) {
+                if(!tag) continue;
+
+                const tagRef = doc(db, "accounts", user.uid, "tags", tag);
+                const tagDocSnap = await getDoc(tagRef);
+                const tagDoc = tagDocSnap.data();
+
+                if (tagDocSnap.exists()) {
+                    // tag exists, so update the array of artworks in it
+                    await setDoc(tagRef, {
+                        artworks: Array.from(new Set([...tagDoc.artworks, artworkId])) // this ensures uniqueness
+                    }, {merge:true});
+                } else {
+                    // tag doesn't exist, so make a new document
+                    await setDoc(tagRef, {
+                        name: tag,
+                        artworks: [artworkId]
+                    });
+                }
             }
 
             // go back to the list after editing the form
