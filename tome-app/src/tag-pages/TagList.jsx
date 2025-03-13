@@ -24,7 +24,7 @@ function TagList() {
                 <div>
                     <h1 className="flex text-2xl font-bold w-full mb-8">Tags &nbsp; <span className="text-gray-400">{tags.length} </span></h1>
                     {tags.map(tag => (
-                        <Link to={`/tag/{tag.id}`}>
+                        <Link to={`/tag/${tag.id}`} key={tag.id}>
                             <div key={tag.id} className="flex flex-row border border-gray-200 rounded p-2 my-2 w-full">
                                 <h2 className="text-lg font-semibold w-48 text-left">{tag.name}</h2>
                                 <div className="flex flex-row justify-center gap-2">
